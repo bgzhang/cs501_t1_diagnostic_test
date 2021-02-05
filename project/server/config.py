@@ -1,6 +1,8 @@
 # project/server/config.py
 
 import os
+#basedir = os.path.abspath(os.path.dirname("users/Bryan/Anaconda3/python.exe"))
+#basedir = os.path.abspath(os.path.dirname("users/Bryan/cs501_t1_diagnostic_test/project/server/config.py"))
 basedir = os.path.abspath(os.path.dirname(__file__))
 postgres_local_base = 'sqlite:///'
 database_name = 'diagnostic'

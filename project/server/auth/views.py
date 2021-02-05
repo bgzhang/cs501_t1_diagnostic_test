@@ -20,6 +20,15 @@ class RegisterAPI(MethodView):
     	}
     	return make_response(jsonify(responseObject)), 201
 
+#    def get(self):
+#        post_data=request.get_json();
+#        user = post_data.get('email')
+#        #usersList = [user]
+#        
+#        responseObject={'user': user}                
+#        return make_response(jsonify(responseObject)), 201
+        
+    
     def post(self):
         # get the post data
         post_data = request.get_json(); print(request)
@@ -57,12 +66,46 @@ class RegisterAPI(MethodView):
             return make_response(jsonify(responseObject)), 202
 
 
+
+class UserView(MethodView):
+    def get(self):
+        #get the information from DB (the query would ideally get every user)
+        
+        users = User.query.order_by(User.email).all()
+        usersEmails = []
+        for i in users:
+            usersEmails.append(i.email)
+#        print(users)
+#        print("Hello World")
+        #users = User.query.filter_by('email').first()
+#        responseObject = {
+#                'user': 'users'
+#                }
+        #usersString = ''.join(users)
+        #return usersString
+        #return users
+        #return make_response(jsonify(responseObject)), 202
+        return make_response(jsonify(usersEmails)), 202
+        #return make_response(jsonify(responseObject)), 201
+        #return make_response(users), 201
+        #return jsonify(users)
+
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
+users_view = UserView.as_view("users_view")
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
     '/auth/register',
     view_func=registration_view,
     methods=['POST', 'GET']
+    
+    
+)
+
+auth_blueprint.add_url_rule(
+    '/users/index',
+    view_func=users_view,
+    methods=['GET']    
+
 )
